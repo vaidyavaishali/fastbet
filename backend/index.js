@@ -185,7 +185,7 @@ app.use(express.json());
 
 // CORS configuration
 const allowedOrigins = [
-  // "http://localhost:3000", // Local frontend
+  "http://localhost:3000", // Local frontend
   "https://fastbetfrontend.vercel.app", // Local frontend
   // "https://www.98fastbet.com" // Vercel frontend
 ];
