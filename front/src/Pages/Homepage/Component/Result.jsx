@@ -120,11 +120,8 @@ const SattaResults = () => {
   useEffect(() => {
     // Fetch data from the backend API
     axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`, 
-      {
-        withCredentials: true,  // This ensures cookies are sent
-      }
     )
-      .then((response) => response.json())
+      // .then((response) => response.json())
       .then((data) => {
         if (data.scrapedData && data.scrapedData.markets) {
           setResults(data.scrapedData.markets);
