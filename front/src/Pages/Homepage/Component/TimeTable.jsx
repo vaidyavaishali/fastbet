@@ -70,11 +70,20 @@ const TimeTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`);
-        console.log("Fetched data:", response.data);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`,
+        );
+        const data = await response.data;
+        console.log(data)
+
+        // if (response.ok) {
+          setData(data.scrapedData.chartData);
+        // } else {
+          // setError(data.message || "Failed to fetch game data.");
+        // }
+      } catch (err) {
+        setError("Something went wrong. Please try again.");
+      } finally {
+        setLoading(false);
       }
     };
   
@@ -86,8 +95,8 @@ const TimeTable = () => {
     return <div>Loading...</div>;
   }
 
-  const { scrapedData = {} } = data;
-  const { chartData = [] } = scrapedData;
+  // const { scrapedData = {} } = data;
+  // const { chartData = [] } = scrapedData;
 
   return (
     <MainContainer id="time-table">
@@ -100,7 +109,7 @@ const TimeTable = () => {
             <Cell>Close</Cell>
             <Cell>Chart</Cell>
           </Header>
-          {chartData.map((market, index) => (
+          {data.map((market, index) => (
             <Row key={index}>
               <Cell>{market.market}</Cell>
               <Cell>{market.openTime}</Cell>
