@@ -1,6 +1,6 @@
 {
   "name": "shrimatka",
-  "proxy": "https://fastbetapi.vercel.app",
+  
   "version": "0.1.0",
   "private": true,
   "engines": {
