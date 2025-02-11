@@ -66,7 +66,7 @@ const Link = styled.a`
 
 const TimeTable = () => {
   const [data, setData] = useState(null);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -86,7 +86,8 @@ const TimeTable = () => {
     return <div>Loading...</div>;
   }
 
-  const { chartData } = data.scrapedData;
+  const { scrapedData = {} } = data;
+  const { chartData = [] } = scrapedData;
 
   return (
     <MainContainer id="time-table">
