@@ -81,9 +81,7 @@ const TimeTable = () => {
           // setError(data.message || "Failed to fetch game data.");
         // }
       } catch (err) {
-        setError("Something went wrong. Please try again.");
-      } finally {
-        setLoading(false);
+console.log("error")
       }
     };
   
