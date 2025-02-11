@@ -75,20 +75,25 @@ const TimeTable = () => {
       setLoading(true);
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`);
-        const apiData = response.data;
-
-        if (apiData.scrapedData && apiData.scrapedData.chartData) {
-          setData(apiData.scrapedData.chartData);
+    
+        // Check if response is JSON, not HTML
+        if (!response.data || typeof response.data !== "object") {
+          throw new Error("Invalid response: Expected JSON but received an HTML document.");
+        }
+    
+        if (response.data.scrapedData && response.data.scrapedData.chartData) {
+          setData(response.data.scrapedData.chartData);
         } else {
           setError("No market data found.");
         }
       } catch (err) {
-        console.error("Error fetching data:", err);
-        setError("Failed to fetch data. Please try again.");
+        console.error("❌ API Error:", err);
+        setError("Failed to fetch data. Please check the API.");
       } finally {
         setLoading(false);
       }
     };
+    
 
     fetchData();
   }, []);
