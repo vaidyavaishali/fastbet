@@ -184,24 +184,54 @@ dotenv.config();
 app.use(express.json());
 
 // CORS configuration
+// const allowedOrigins = [
+//   // "http://localhost:3000", // Local frontend
+//   "https://fastbetfrontend.vercel.app", // Local frontend
+//   // "https://www.98fastbet.com" // Vercel frontend
+// ];
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allow necessary methods
+//     credentials: true // Allow cookies/auth headers if needed
+//   })
+// );
+
+
+// const cors = require("cors");
+
 const allowedOrigins = [
-  // "http://localhost:3000", // Local frontend
-  "https://fastbetfrontend.vercel.app", // Local frontend
-  // "https://www.98fastbet.com" // Vercel frontend
+  "https://fastbetfrontend.vercel.app", // ✅ Your frontend URL
+  "https://www.98fastbet.com" // ✅ Add if needed
 ];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow necessary methods
-    credentials: true // Allow cookies/auth headers if needed
-  })
-);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"], // ✅ Allow necessary methods
+  credentials: true // ✅ Allow cookies/auth headers if needed
+}));
+
+// ✅ Allow CORS for specific routes if needed
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://fastbetfrontend.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 
 // app.use(
 //   cors({
