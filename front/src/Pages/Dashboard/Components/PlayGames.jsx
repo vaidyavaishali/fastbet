@@ -128,17 +128,15 @@ const PlayGames = () => {
     const fetchGameData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`,
-          {
-            withCredentials: true,  // This ensures cookies are sent
-          }
         );
-        const data = await response.json();
+        const data = await response.data;
+        console.log(data)
 
-        if (response.ok) {
+        // if (response.ok) {
           setGamesData(data.scrapedData.markets);
-        } else {
-          setError(data.message || "Failed to fetch game data.");
-        }
+        // } else {
+          // setError(data.message || "Failed to fetch game data.");
+        // }
       } catch (err) {
         setError("Something went wrong. Please try again.");
       } finally {
