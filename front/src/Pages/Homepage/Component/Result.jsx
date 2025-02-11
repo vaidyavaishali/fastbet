@@ -118,25 +118,29 @@ const SattaResults = () => {
   const [error, setError] = useState(null); // State to track errors
 
   useEffect(() => {
-    // Fetch data from the backend API
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`, 
-    )
-      // .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      setLoading(true); // Start loading before the request
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`);
+        const data = response.data; // Axios auto-parses JSON
+        
         if (data.scrapedData && data.scrapedData.markets) {
           setResults(data.scrapedData.markets);
-          console.log(data)
+          console.log("Fetched data:", data);
         } else {
           setError("No market data found.");
         }
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data:", error);
         setError("Failed to fetch data. Please try again.");
-        setLoading(false);
-      });
-  }, []);
+      } finally {
+        setLoading(false); // Stop loading regardless of success or error
+      }
+    };
+  
+    fetchData(); // Call the async function
+  }, []); // Runs only once when the component mounts
+  
 
   if (loading) {
     return <Container><Title>Loading...</Title></Container>;

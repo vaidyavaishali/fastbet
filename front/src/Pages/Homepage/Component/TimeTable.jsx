@@ -66,20 +66,21 @@ const Link = styled.a`
 
 const TimeTable = () => {
   const [data, setData] = useState(null);
-
+  
   useEffect(() => {
-    // Fetch data from the backend API
-    axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`, 
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Fetched data:", data);
-        setData(data);
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/subscription-state`);
+        console.log("Fetched data:", response.data);
+        setData(response.data);
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
-  }, []);
+      }
+    };
+  
+    fetchData(); // Call the async function
+  }, []); // Runs only once when the component mounts
+  
 
   if (!data) {
     return <div>Loading...</div>;
